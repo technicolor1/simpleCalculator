@@ -1,48 +1,106 @@
-#container {
-   width: 20rem;
-   display: grid;
-   grid-template-columns: repeat(4, 1fr);
-   grid-template-rows: repeat(5, 1fr);
+html {
+   margin: 0;
 }
 
+#container:before {
+   margin: -5px -10px -10px -5px;
+   background-image: url(https://images.apple.com/macos/high-sierra-preview/overview/beta/image_large_2x.jpg);
+   content: "";
+   position: fixed;
+   left: 0;
+   right: 0;
+   top: 0;
+   z-index: -1;
+   display: block;
+   width: 150%;
+   height: 150%;
+   background-size: cover;
+   -webkit-filter: blur(5px);
+   filter: blur(5px);
+}
+
+/* .background-image {
+   filter: blur(5px);
+   -webkit-filter: blur(5px);
+   height: 800px;
+   left: 0;
+   position: fixed;
+   right: 0;
+   z-index: 1;
+} */
+
+#container {
+   background: rgb(34, 39, 41);
+   width: 22rem;
+   height: 31rem;
+   display: grid;
+   padding: 2px;
+   grid-template-columns: repeat(4, 1fr);
+   grid-template-rows: repeat(5, 1fr);
+   margin: 10rem auto;
+   grid-gap: 1px;
+   border-radius: 10px;
+}
+
+/* max 13 digits allowed */
+
 #display {
+   background: rgb(200, 200, 200);
+   color: black;
+   text-align: right;
    grid-column: 1 / 5;
-   font-size: 3em;
-   border: 1px solid green;
-   width: 90%;
-   line-height: 3rem;
+   font-size: 3rem;
+   padding-top: 1.25rem;
+   padding-right: 1rem;
+   height: 4.5rem;
+   margin-bottom: 0.5rem;
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
 }
 
 .operate {
    grid-column: 4;
-   font-size: 50px;
+   font-size: 3rem;
+   background-color: #FF9800;
 }
 
 .numeric {
-   font-size: 50px;
+   background-color: rgb(230, 230, 230);
+   font-size: 3rem;
 }
 
 #btn-0 {
    grid-column: 1 / 3;
+   text-align: left;
+   padding-left: 1.90rem;
+   border-bottom-left-radius: 10px;
+}
+
+#btn-equals {
+   border-bottom-right-radius: 10px;
 }
 
 #btn-clear {
    grid-column: 1;
    grid-row: 2 / 3;
+   font-size: 2.5rem;
 }
 
-/* #btn-dec {
-   font-size: 60px;
-   grid-row: 5;
-   grid-column: 3;
-} */
+#btn-posneg {
+   grid-column: 2 / 3;
+}
+
+#btn-percent {
+   grid-column: 3 / 4;
+}
+
+#btn-dec {
+   padding-bottom: 1rem;
+}
 
 button {
    cursor: pointer;
-   border: 0.5px solid red;
+   /* border: 0.5px solid red; */
    outline: none;
-}
-
-#btn-equals {
-   font-size: 75px;
+   border: none;
 }
