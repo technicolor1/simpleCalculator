@@ -34,6 +34,7 @@ operateArray.forEach(element => {
 })
 
 function clearAll() {
+   didOperate = false;
    mathDisplay.innerHTML = "";
    mathStack = {
       firstNum: "",
@@ -48,29 +49,40 @@ function inputHandle(element) {
    if (element == "btn-clear") {
       clearAll();
 
-   // if numeric digits are pressed
-   } else if (/[0-9\.]/.test(element)) {
+   // if numeric are pressed
+   } else if (/[0-9.]/.test(element)) {
 
-      // new operation
-      // if (didOperate) {
-      //    clearAll();
-      //    didOperate = false;
-      // }
       // if number inside mathDisplay already has a decimal
       if (element == "." && mathStack.currentNum.includes(".")) {
          return;
       }
 
-      // push number to mathDisplay
-      mathStack.currentNum += element;
-      mathDisplay.innerHTML = mathStack.currentNum;
+      // overflow
+      if (mathStack.currentNum.length >= 13) {
+         return;
+      } else {
+         // push number to mathDisplay
+         mathStack.currentNum += element;
+         mathDisplay.innerHTML = mathStack.currentNum;
+      }
 
    // if operation buttons other than equals is pressed
    } else if (element !== "btn-equals" && element === "btn-add" || element === "btn-subtract" || element === "btn-mult" || element === "btn-divide") {
 
-      // if currentNum is populated, push it to firstNum
-      if (mathStack.currentNum !== "") {
+      // regular
+      if (mathStack.firstNum === "" || didOperate) {
          mathStack.firstNum = mathStack.currentNum;
+         mathStack.currentNum = "";
+         didOperate = false;
+
+      // chained operations
+      } else {
+         mathStack.secondNum = mathStack.currentNum;
+         if (mathStack.secondNum) {
+            mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum)).substring(0, 13);
+            mathStack.firstNum = mathStack.currentNum;
+         }
+         mathDisplay.innerHTML = mathStack.currentNum;
          mathStack.currentNum = "";
       }
       mathStack.operator = element;
@@ -79,11 +91,12 @@ function inputHandle(element) {
       // push currentNum to secondNum
       mathStack.secondNum = mathStack.currentNum || mathStack.secondNum;
       // process operation
-      mathStack.currentNum = operate(mathStack.firstNum, mathStack.secondNum);
+      mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum)).substring(0, 13);
       // display result
       mathDisplay.innerHTML = mathStack.currentNum;
       // push result to firstNum
       mathStack.firstNum = mathStack.currentNum;
+
       mathStack.currentNum = "";
       didOperate = true;
    }
@@ -91,26 +104,26 @@ function inputHandle(element) {
 }
 
 
-function operate(firstNum, secondNum) {
+function operate() {
 
    mathStack.firstNum = parseFloat(mathStack.firstNum);
    mathStack.secondNum = parseFloat(mathStack.secondNum);
    console.log(mathStack.firstNum, mathStack.secondNum);
    switch (mathStack.operator) {
       case "btn-add":
-      return (mathStack.firstNum + mathStack.secondNum);
+      return ((mathStack.firstNum + mathStack.secondNum)).toString();
 
       case "btn-subtract":
-      return (mathStack.firstNum - mathStack.secondNum);
+      return ((mathStack.firstNum - mathStack.secondNum)).toString();
 
       case "btn-mult":
-      return (mathStack.firstNum * mathStack.secondNum);
+      return ((mathStack.firstNum * mathStack.secondNum)).toString();
 
       case "btn-divide":
       if (mathStack.secondNum != 0) {
-         return (mathStack.firstNum / mathStack.secondNum);
+         return ((mathStack.firstNum / mathStack.secondNum).toFixed(12)).toString();
       } else {
-         alert("Cannot divide by zero");
+         mathDisplay.innerHTML = "ERR";
          return;
       }
    }

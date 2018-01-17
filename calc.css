@@ -1,35 +1,28 @@
+
 html {
    margin: 0;
 }
 
 #container:before {
-   margin: -5px -10px -10px -5px;
+   margin: -5px -10px -10px -55px;
    background-image: url(https://images.apple.com/macos/high-sierra-preview/overview/beta/image_large_2x.jpg);
    content: "";
    position: fixed;
    left: 0;
    right: 0;
-   top: 0;
+   top: -400px;
    z-index: -1;
    display: block;
    width: 150%;
    height: 150%;
    background-size: cover;
    -webkit-filter: blur(5px);
-   filter: blur(5px);
+   filter: blur(25px);
 }
 
-/* .background-image {
-   filter: blur(5px);
-   -webkit-filter: blur(5px);
-   height: 800px;
-   left: 0;
-   position: fixed;
-   right: 0;
-   z-index: 1;
-} */
-
 #container {
+   font-family: 'Montserrat', sans-serif;
+
    background: rgb(34, 39, 41);
    width: 22rem;
    height: 31rem;
@@ -37,7 +30,7 @@ html {
    padding: 2px;
    grid-template-columns: repeat(4, 1fr);
    grid-template-rows: repeat(5, 1fr);
-   margin: 10rem auto;
+   margin: 12rem auto;
    grid-gap: 1px;
    border-radius: 10px;
 }
@@ -45,6 +38,7 @@ html {
 /* max 13 digits allowed */
 
 #display {
+   font-weight: 200;
    background: rgb(200, 200, 200);
    color: black;
    text-align: right;
@@ -99,8 +93,18 @@ html {
 }
 
 button {
+   font-weight: 300;
+
    cursor: pointer;
-   /* border: 0.5px solid red; */
    outline: none;
    border: none;
+   transition: all 0.2s;
+}
+
+button:hover {
+   color: cadetblue;
+}
+
+button:active {
+   opacity: 0.85;
 }
