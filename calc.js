@@ -10,6 +10,8 @@ let mathStack = {
 }
 
 let didOperate = false;
+let memory = 0;
+
 const mathDisplay = document.getElementById("display");
 const btnArray = Array.from(document.getElementsByClassName("numeric"));
 const operateArray = Array.from(document.getElementsByClassName("operate"));
@@ -18,7 +20,6 @@ const btnClear = document.getElementById("btn-clear");
 
 btnClear.addEventListener("click", _ => {
    clearAll();
-   console.log("cleared")
 })
 
 btnArray.forEach(element => {
@@ -34,6 +35,7 @@ operateArray.forEach(element => {
 })
 
 function clearAll() {
+   memory = 0;
    didOperate = false;
    mathDisplay.innerHTML = "";
    mathStack = {
@@ -46,19 +48,20 @@ function clearAll() {
 function inputHandle(element) {
 
    // if CE is pressed
-   if (element == "btn-clear") {
+   if (element === "btn-clear") {
       clearAll();
 
    // if numeric are pressed
    } else if (/[0-9.]/.test(element)) {
-
+      memory = 0;
+      
       // if number inside mathDisplay already has a decimal
       if (element == "." && mathStack.currentNum.includes(".")) {
          return;
       }
 
       // overflow
-      if (mathStack.currentNum.length >= 13) {
+      if (mathStack.currentNum.length >= 12) {
          return;
       } else {
          // push number to mathDisplay
@@ -71,15 +74,21 @@ function inputHandle(element) {
 
       // regular
       if (mathStack.firstNum === "" || didOperate) {
-         mathStack.firstNum = mathStack.currentNum;
-         mathStack.currentNum = "";
-         didOperate = false;
+         if (memory !== 0) {
+            mathStack.firstNum = memory;
+            mathStack.currentNum = "";
+            didOperate = false;
+         } else {
+            mathStack.firstNum = mathStack.currentNum;
+            mathStack.currentNum = "";
+            didOperate = false;
+         }
 
       // chained operations
       } else {
          mathStack.secondNum = mathStack.currentNum;
          if (mathStack.secondNum) {
-            mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum)).substring(0, 13);
+            mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum)).substring(0, 12);
             mathStack.firstNum = mathStack.currentNum;
          }
          mathDisplay.innerHTML = mathStack.currentNum;
@@ -91,11 +100,12 @@ function inputHandle(element) {
       // push currentNum to secondNum
       mathStack.secondNum = mathStack.currentNum || mathStack.secondNum;
       // process operation
-      mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum)).substring(0, 13);
+      mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum)).substring(0, 12);
       // display result
       mathDisplay.innerHTML = mathStack.currentNum;
       // push result to firstNum
       mathStack.firstNum = mathStack.currentNum;
+      memory = mathStack.firstNum;
 
       mathStack.currentNum = "";
       didOperate = true;
