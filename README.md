@@ -14,3 +14,4 @@ A simple calculator. Add, subtract, multiply, divide.
 - [ ] backspace
 - [ ] percent mode
 - [ ] +/- value
+- [ ] Responsive
