@@ -4,11 +4,13 @@
 A simple calculator. Add, subtract, multiply, divide.
 
 # TODO 
-- [ ] Material UI
+- [x] Material UI
 - [ ] Prevent NaN / undefined events
 - [ ] AC mode
-- [ ] backspace
+- [ ] Keyboard support
+- [ ] Overflow
 
 # Future TODO
+- [ ] backspace
 - [ ] percent mode
 - [ ] +/- value
