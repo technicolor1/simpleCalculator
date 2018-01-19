@@ -3,6 +3,9 @@
 
 A simple calculator. Add, subtract, multiply, divide.
 
+# ISSUES
+- Safari does not fully support CSS-grid
+
 # TODO 
 - [x] Material UI
 - [ ] The user should see the least amount of occurrences of NaN / undefined
@@ -14,4 +17,3 @@ A simple calculator. Add, subtract, multiply, divide.
 - [ ] The user can use backspace 
 - [ ] The user can use the percent operation
 - [ ] The user can use the + / - operation
-- [ ] The site is Responsive Design 
