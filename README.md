@@ -4,7 +4,7 @@
 A simple calculator. Add, subtract, multiply, divide.
 
 # ISSUES
-- Safari does not fully support CSS-grid
+- Recommended Chrome for best rendition. Safari does not fully support CSS-grid
 
 # TODO 
 - [x] Material UI
