@@ -50,7 +50,7 @@ module.exports = {
             "error",
             "last"
         ],
-        "complexity": "error",
+        "complexity": "off",
         "computed-property-spacing": "error",
         "consistent-return": "off",
         "consistent-this": "error",
@@ -116,7 +116,7 @@ module.exports = {
         "new-cap": "error",
         "new-parens": "error",
         "newline-after-var": [
-            "error",
+            "off",
             "always"
         ],
         "newline-before-return": "off",
@@ -266,7 +266,7 @@ module.exports = {
             "error",
             "always"
         ],
-        "strict": "error",
+        "strict": ["error", 'global'],
         "switch-colon-spacing": "error",
         "symbol-description": "error",
         "template-curly-spacing": "error",
