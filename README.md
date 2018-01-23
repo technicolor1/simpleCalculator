@@ -3,12 +3,17 @@
 
 A simple calculator. Add, subtract, multiply, divide.
 
+# ISSUES
+- Recommended Chrome for best rendition. Safari does not fully support CSS-grid
+
 # TODO 
-- [ ] Material UI
-- [ ] Prevent NaN / undefined events
-- [ ] AC mode
-- [ ] backspace
+- [x] Material UI
+- [ ] The user should see the least amount of occurrences of NaN / undefined
+- [ ] The user can use AC mode 
+- [ ] The user can use the keyboard as input
+- [ ] The user should see the least amount of overflow
 
 # Future TODO
-- [ ] percent mode
-- [ ] +/- value
+- [ ] The user can use backspace 
+- [ ] The user can use the percent operation
+- [ ] The user can use the + / - operation
