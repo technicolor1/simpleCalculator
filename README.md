@@ -8,10 +8,10 @@ A simple calculator. Add, subtract, multiply, divide.
 
 # TODO 
 - [x] Material UI
-- [ ] The user should see the least amount of occurrences of NaN / undefined
+- [x] The user should see the least amount of occurrences of NaN / undefined
 - [ ] The user can use AC mode 
-- [ ] The user can use the keyboard as input
-- [ ] The user should see the least amount of overflow
+- [x] The user can use the keyboard as input
+- [x] The user should see the least amount of overflow
 
 # Future TODO
 - [ ] The user can use backspace 
