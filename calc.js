@@ -16,9 +16,7 @@ const mathDisplay = document.getElementById("display");
 
 
 const btnClear = document.getElementById("btn-clear");
-btnClear.addEventListener("click", _ => {
-   clearAll();
-})
+btnClear.addEventListener("click", clearAll());
 
 const btnArray = Array.from(document.getElementsByClassName("numeric"));
 btnArray.forEach(element => {
@@ -32,6 +30,11 @@ operateArray.forEach(element => {
    element.addEventListener("click", _ => {
       inputHandle(element.id);
    })
+})
+
+const reset = document.querySelector(".reset");
+reset.addEventListener("click", _ => {
+   window.location = window.location;
 })
 
 function clearAll() {
@@ -119,7 +122,6 @@ function inputHandle(element) {
    console.log(mathStack);
 }
 
-
 function operate() {
    mathStack.firstNum = parseFloat(mathStack.firstNum);
    // secondNum empty
@@ -129,23 +131,26 @@ function operate() {
    mathStack.secondNum = parseFloat(mathStack.secondNum);
 
    switch (mathStack.operator) {
-      default: mathDisplay.innerHTML = "ERR";
+      default:
+         mathDisplay.innerHTML = "ERR";
       break;
 
       case "btn-add":
-            return ((mathStack.firstNum + mathStack.secondNum)).toFixed(5).toString();
+         return ((mathStack.firstNum + mathStack.secondNum)).toFixed(5).toString();
 
       case "btn-subtract":
-            return ((mathStack.firstNum - mathStack.secondNum)).toFixed(5).toString();
+         return ((mathStack.firstNum - mathStack.secondNum)).toFixed(5).toString();
 
       case "btn-mult":
-            return ((mathStack.firstNum * mathStack.secondNum)).toFixed(5).toString();
+         return ((mathStack.firstNum * mathStack.secondNum)).toFixed(5).toString();
 
       case "btn-divide":
-            if (mathStack.secondNum !== 0) {
-            return ((mathStack.firstNum / mathStack.secondNum).toFixed(5)).toString();
+         if (mathStack.secondNum !== 0) {
+         return ((mathStack.firstNum / mathStack.secondNum).toFixed(5)).toString();
          } else {
-            mathDisplay.innerHTML = "ERR";
+            const calc = document.querySelector("#container");
+            calc.classList.add("broken");
+            reset.classList.add("show");
             return;
          }
    }

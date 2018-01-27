@@ -1,16 +1,15 @@
 html {
+   background-image: url(https://images.apple.com/macos/high-sierra-preview/overview/beta/image_large_2x.jpg);
    margin: 0;
 }
 
-#container:before {
+/* #container:before {
    margin: -5px -10px -10px -55px;
-   background-image: url(https://images.apple.com/macos/high-sierra-preview/overview/beta/image_large_2x.jpg);
    content: "";
    position: fixed;
    left: 0;
    right: 0;
    top: -350px;
-   z-index: -1;
    display: block;
    width: 150%;
    height: 150%;
@@ -18,7 +17,7 @@ html {
    background-repeat: no-repeat;
    -webkit-filter: blur(5px);
    filter: blur(25px);
-}
+} */
 
 #container {
    font-family: 'Montserrat', sans-serif;
@@ -33,6 +32,47 @@ html {
    grid-gap: 2px;
    border-radius: 10px;
    box-shadow: 0px 12px 20px 2px rgba(0, 0, 0, 0.32);
+}
+
+p {
+   color: #e6e6e6;
+   font-size: 35px;
+   width: 6%;
+   margin: 0 auto;
+   position: absolute;
+   bottom: 1%;
+}
+
+.broken {
+   transform-origin: top left;
+   animation: fall 3s;
+   animation-fill-mode: forwards;
+}
+
+@keyframes fall {
+   0% {
+      transform: translate3d(0,0,0);
+   }
+   25% {
+      transform: rotate(45deg);
+   }
+   50% {
+      transform: rotate(20deg);
+   }
+   75% {
+      transform: rotate(30deg);
+   }
+   80% {
+      transform: translate3d(0, 1500px, 0);
+      opacity: 1;
+   }
+   83% {
+      opacity: 0;
+   }
+   100% {
+      transform: translate3d(0, -2000px, 0);
+      opacity: 0;
+   }
 }
 
 /* max 12 digits allowed */
@@ -50,6 +90,38 @@ html {
    margin-bottom: 0.5rem;
    border-top-left-radius: 10px;
    border-top-right-radius: 10px;
+}
+
+.reset {
+   background-color: Transparent;
+   font-size: 65px;
+   position: absolute;
+     top: 45%;
+     left: 46%;
+   width: auto;
+   height: auto;
+   visibility: hidden;
+}
+.reset:hover {
+   color: #8b8b8b;
+}
+.reset.show {
+   animation: fadein 6.25s;
+   animation-fill-mode: forwards;
+}
+@keyframes fadein {
+   0% {
+      visibility: hidden;
+      opacity: 0;
+   }
+   50% {
+      visibility: hidden;
+      opacity: 0;
+   }
+   100% {
+      visibility: visible;
+      opacity: 1;
+   }
 }
 
 .operate {
