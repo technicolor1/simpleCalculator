@@ -37,6 +37,9 @@ reset.addEventListener("click", _ => {
    window.location = window.location;
 })
 
+document.addEventListener("keyup", keyPress);
+document.addEventListener("keydown", keyPress);
+
 function clearAll() {
    memory = 0;
    didOperate = false;
@@ -50,11 +53,24 @@ function clearAll() {
 
 function inputHandle(element) {
 
-   // ce is pressed
+   // backspace
+   if (element === "btn-back") {
+      mathDisplay.innerHTML = mathDisplay.innerHTML.slice(0, -1);
+      mathStack.currentNum = mathDisplay.innerHTML;
+      if (didOperate === true) {
+         mathStack.firstNum = mathStack.currentNum;
+      }
+
+      if (mathStack.secondNum !== "") {
+         mathStack.secondNum = mathStack.currentNum;
+      }
+   }
+
+   // clear
    if (element === "btn-clear") {
       clearAll();
 
-      // numeric are pressed
+      // numeric
    } else if (/[0-9.]/.test(element)) {
       memory = 0;
 
@@ -72,12 +88,15 @@ function inputHandle(element) {
          mathDisplay.innerHTML = mathStack.currentNum;
       }
 
-      // operation buttons other than equals is pressed
+      // operation, not equals
    } else if (element !== "btn-equals" && element === "btn-add" || element === "btn-subtract" || element === "btn-mult" || element === "btn-divide") {
 
       // regular
       if (mathStack.firstNum === "" || didOperate) {
          if (memory !== 0) {
+            if (memory !== mathStack.firstNum) {
+               memory = mathStack.firstNum;
+            }
             mathStack.firstNum = memory;
             mathStack.currentNum = "";
             didOperate = false;
@@ -99,6 +118,7 @@ function inputHandle(element) {
       }
       mathStack.operator = element;
 
+   // equals
    } else if (element === "btn-equals") {
       if (mathStack.firstNum === "") {
          return;
@@ -136,13 +156,13 @@ function operate() {
       break;
 
       case "btn-add":
-         return ((mathStack.firstNum + mathStack.secondNum)).toFixed(5).toString();
+         return ((mathStack.firstNum + mathStack.secondNum)).toString();
 
       case "btn-subtract":
-         return ((mathStack.firstNum - mathStack.secondNum)).toFixed(5).toString();
+         return ((mathStack.firstNum - mathStack.secondNum)).toString();
 
       case "btn-mult":
-         return ((mathStack.firstNum * mathStack.secondNum)).toFixed(5).toString();
+         return ((mathStack.firstNum * mathStack.secondNum)).toString();
 
       case "btn-divide":
          if (mathStack.secondNum !== 0) {
@@ -157,8 +177,7 @@ function operate() {
    return mathStack.operator;
 }
 
-window.addEventListener("keydown", event => {
-
+function keyPress(event) {
    if (event.defaultPrevented) {
       // do nothing if the event was already processed
       return;
@@ -168,60 +187,76 @@ window.addEventListener("keydown", event => {
       return;
    }
 
-   switch (event.key) {
-      default: return;
-      case "Enter":
-         inputHandle("btn-equals");
-         break;
-      case "1":
-         inputHandle(1);
-         break;
-      case "2":
-         inputHandle(2);
-         break;
-      case "3":
-         inputHandle(3);
-         break;
-      case "4":
-         inputHandle(4);
-         break;
-      case "5":
-         inputHandle(5);
-         break;
-      case "6":
-         inputHandle(6);
-         break;
-      case "7":
-         inputHandle(7);
-         break;
-      case "8":
-         inputHandle(8);
-         break;
-      case "9":
-         inputHandle(9);
-         break;
-      case "0":
-         inputHandle(0);
-         break;
-      case ".":
-         inputHandle(".");
-         break;
-      case "c":
-         inputHandle("btn-clear");
-         break;
-      case "+":
-         inputHandle("btn-add");
-         break;
-      case "-":
-         inputHandle("btn-subtract");
-         break;
-      case "*":
-         inputHandle("btn-mult");
-         break;
-      case "/":
-         inputHandle("btn-divide");
-         break;
+   // console.log(event.type, event.key);
+   if (event.type === "keydown") {
+      switch (event.key) {
+         default: return;
+         case "Backspace":
+            inputHandle("btn-back");
+            break;
+         case "Enter":
+            inputHandle("btn-equals");
+            break;
+         case "1":
+            inputHandle(1);
+            break;
+         case "2":
+            inputHandle(2);
+            break;
+         case "3":
+            inputHandle(3);
+            break;
+         case "4":
+            inputHandle(4);
+            break;
+         case "5":
+            inputHandle(5);
+            break;
+         case "6":
+            inputHandle(6);
+            break;
+         case "7":
+            inputHandle(7);
+            break;
+         case "8":
+            inputHandle(8);
+            break;
+         case "9":
+            inputHandle(9);
+            break;
+         case "0":
+            inputHandle(0);
+            break;
+         case ".":
+            inputHandle(".");
+            break;
+         case "c":
+            inputHandle("btn-clear");
+            break;
+         case "+":
+            inputHandle("btn-add");
+            break;
+         case "-":
+            inputHandle("btn-subtract");
+            break;
+         case "*":
+            inputHandle("btn-mult");
+            break;
+         case "/":
+            inputHandle("btn-divide");
+            break;
+      }
    }
 
-   event.preventDefault();
-}, true);
+   btnArray.forEach(item => {
+      if (item.innerHTML === event.key) {
+         if (event.type === "keydown") {
+            item.classList.add("pressed");
+         } else if (event.type === "keyup") {
+            item.classList.remove("pressed");
+         }
+      }
+   })
+
+   event.stopPropagation();
+}

@@ -175,6 +175,10 @@ button {
 button:hover {
    color: cadetblue;
 }
+.pressed {
+   color: cadetblue;
+   opacity: 0.85;
+}
 
 button:active {
    opacity: 0.85;
