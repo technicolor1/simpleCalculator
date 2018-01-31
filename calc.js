@@ -13,6 +13,7 @@ let mathStack = {
 let didOperate = false;
 let memory = 0;
 const mathDisplay = document.getElementById("display");
+const allBtns = [];
 
 
 const btnClear = document.getElementById("btn-clear");
@@ -30,6 +31,13 @@ operateArray.forEach(element => {
    element.addEventListener("click", _ => {
       inputHandle(element.id);
    })
+})
+
+btnArray.forEach(button => {
+   allBtns.push(button);
+})
+operateArray.forEach(button => {
+   allBtns.push(button);
 })
 
 const reset = document.querySelector(".reset");
@@ -69,9 +77,10 @@ function inputHandle(element) {
    // clear
    if (element === "btn-clear") {
       clearAll();
+   }
 
-      // numeric
-   } else if (/[0-9.]/.test(element)) {
+   // numeric
+   if (/[0-9.]/.test(element)) {
       memory = 0;
 
       // number inside mathDisplay already has a decimal
@@ -88,8 +97,14 @@ function inputHandle(element) {
          mathDisplay.innerHTML = mathStack.currentNum;
       }
 
-      // operation, not equals
-   } else if (element !== "btn-equals" && element === "btn-add" || element === "btn-subtract" || element === "btn-mult" || element === "btn-divide") {
+   }
+
+   // operation, not equals
+   if (element !== "btn-equals" &&
+   element === "btn-add" ||
+   element === "btn-subtract" ||
+   element === "btn-mult" ||
+   element === "btn-divide") {
 
       // regular
       if (mathStack.firstNum === "" || didOperate) {
@@ -108,8 +123,14 @@ function inputHandle(element) {
 
       // chained operations
       } else {
+
          mathStack.secondNum = mathStack.currentNum;
          if (mathStack.secondNum) {
+            numValidator();
+            if (numValidator() === false) {
+               mathStack.firstNum = 0;
+            }
+
             mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum)).substring(0, 11);
             mathStack.firstNum = mathStack.currentNum;
          }
@@ -118,11 +139,12 @@ function inputHandle(element) {
       }
       mathStack.operator = element;
 
+   }
+
    // equals
-   } else if (element === "btn-equals") {
-      if (mathStack.firstNum === "") {
-         return;
-      } else if (Number.isNaN(mathStack.firstNum) || Number.isNaN(mathStack.secondNum)) {
+   if (element === "btn-equals") {
+      numValidator();
+      if (numValidator() === false) {
          return;
       }
 
@@ -139,10 +161,28 @@ function inputHandle(element) {
       mathStack.currentNum = "";
       didOperate = true;
    }
+
    console.log(mathStack);
 }
 
+function numValidator() {
+   const a = mathStack.firstNum;
+   const b = mathStack.secondNum;
+   const c = mathStack.currentNum;
+
+   if (a === "") {
+      return false;
+   } else if (a === "." ||
+   b === "." ||
+   c === ".") {
+      return false;
+   }
+   return true;
+}
+
 function operate() {
+   // FIXME: handle trailing decimal results (infinitely many numbers)
+
    mathStack.firstNum = parseFloat(mathStack.firstNum);
    // secondNum empty
    if (mathStack.secondNum === "") {
@@ -168,6 +208,8 @@ function operate() {
          if (mathStack.secondNum !== 0) {
          return ((mathStack.firstNum / mathStack.secondNum).toFixed(5)).toString();
          } else {
+            // FIXME: disable keyboard support
+
             const calc = document.querySelector("#container");
             calc.classList.add("broken");
             reset.classList.add("show");
@@ -187,7 +229,6 @@ function keyPress(event) {
       return;
    }
 
-   // console.log(event.type, event.key);
    if (event.type === "keydown") {
       switch (event.key) {
          default: return;
@@ -248,12 +289,14 @@ function keyPress(event) {
       }
    }
 
-   btnArray.forEach(item => {
-      if (item.innerHTML === event.key) {
+   allBtns.some(button => {
+      if (button.attributes[1].value === event.key) {
          if (event.type === "keydown") {
-            item.classList.add("pressed");
+            button.classList.add("pressed");
+            return true;
          } else if (event.type === "keyup") {
-            item.classList.remove("pressed");
+            button.classList.remove("pressed");
+            return true;
          }
       }
    })
