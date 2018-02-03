@@ -105,7 +105,6 @@ function inputHandle(element) {
    element === "btn-subtract" ||
    element === "btn-mult" ||
    element === "btn-divide") {
-
       // regular
       if (mathStack.firstNum === "" || didOperate) {
          if (memory !== 0) {
@@ -196,17 +195,18 @@ function operate() {
       break;
 
       case "btn-add":
-         return ((mathStack.firstNum + mathStack.secondNum)).toString();
+         return (parseFloat((mathStack.firstNum + mathStack.secondNum).toPrecision(15))).toString();
 
       case "btn-subtract":
-         return ((mathStack.firstNum - mathStack.secondNum)).toString();
+         return (parseFloat((mathStack.firstNum - mathStack.secondNum).toPrecision(15))).toString();
 
       case "btn-mult":
-         return ((mathStack.firstNum * mathStack.secondNum)).toString();
+         return (parseFloat((mathStack.firstNum * mathStack.secondNum).toPrecision(15))).toString();
 
       case "btn-divide":
          if (mathStack.secondNum !== 0) {
-         return ((mathStack.firstNum / mathStack.secondNum).toFixed(5)).toString();
+         // return ((mathStack.firstNum / mathStack.secondNum).toFixed(5)).toString();
+         return (parseFloat((mathStack.firstNum / mathStack.secondNum).toPrecision(15))).toString();
          } else {
             // FIXME: disable keyboard support
 
