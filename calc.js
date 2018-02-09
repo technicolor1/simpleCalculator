@@ -180,7 +180,6 @@ function numValidator() {
 }
 
 function operate() {
-   // FIXME: handle trailing decimal results (infinitely many numbers)
 
    mathStack.firstNum = parseFloat(mathStack.firstNum);
    // secondNum empty

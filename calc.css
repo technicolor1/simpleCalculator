@@ -1,25 +1,8 @@
 html {
    background-image: url(https://images.apple.com/macos/high-sierra-preview/overview/beta/image_large_2x.jpg);
-   margin: 0;
    background-repeat: no-repeat;
-   background-position: center center;
+   background-position: 10%;
 }
-
-/* #container:before {
-   margin: -5px -10px -10px -55px;
-   content: "";
-   position: fixed;
-   left: 0;
-   right: 0;
-   top: -350px;
-   display: block;
-   width: 150%;
-   height: 150%;
-   background-size: cover;
-   background-repeat: no-repeat;
-   -webkit-filter: blur(5px);
-   filter: blur(25px);
-} */
 
 #container {
    font-family: 'Montserrat', sans-serif;
@@ -36,14 +19,17 @@ html {
    box-shadow: 7px 10px 20px 2px rgba(0, 0, 0, 0.32);
 }
 
+ .credits {
+   position: absolute;
+   transform: translate3d(-50%, 0, 0);
+   left: 50%;
+   bottom: -1%;
+}
+
 p {
-   color: #e6e6e6;
+   color: white;
    font-family: 'Montserrat', sans-serif;
    font-size: 20px;
-   width: 6%;
-   margin: 0 auto;
-   position: absolute;
-   bottom: 1%;
 }
 
 .broken {
