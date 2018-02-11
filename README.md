@@ -3,7 +3,7 @@
 
 A simple calculator. Add, subtract, multiply, divide.
 
-# ISSUES
+# Issues
 - Recommended Chrome for best rendition. Safari does not fully support CSS-grid
 
 # TODO 
