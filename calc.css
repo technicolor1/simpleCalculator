@@ -1,7 +1,8 @@
 html {
    background-image: url(https://images.apple.com/macos/high-sierra-preview/overview/beta/image_large_2x.jpg);
    background-repeat: no-repeat;
-   background-position: 10%;
+   background-size: cover;
+   height: 100%;
 }
 
 #container {
@@ -13,7 +14,7 @@ html {
    padding: 2px;
    grid-template-columns: repeat(4, 1fr);
    grid-template-rows: repeat(5, 1fr);
-   margin: 12rem auto;
+   margin: 10% auto;
    grid-gap: 2px;
    border-radius: 10px;
    box-shadow: 7px 10px 20px 2px rgba(0, 0, 0, 0.32);
@@ -23,7 +24,7 @@ html {
    position: absolute;
    transform: translate3d(-50%, 0, 0);
    left: 50%;
-   bottom: -1%;
+   bottom: 0%;
 }
 
 p {
@@ -88,8 +89,6 @@ p {
    position: absolute;
      top: 45%;
      left: 46%;
-   width: auto;
-   height: auto;
    visibility: hidden;
 }
 .reset:hover {
