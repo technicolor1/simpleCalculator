@@ -1,8 +1,18 @@
-html {
-   background-image: url(https://images.apple.com/macos/high-sierra-preview/overview/beta/image_large_2x.jpg);
-   background-repeat: no-repeat;
-   background-size: cover;
-   height: 100%;
+.background-image {
+  background-image: url(https://images.apple.com/macos/high-sierra-preview/overview/beta/image_large_2x.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: block;
+  filter: blur(25px);
+  -webkit-filter: blur(18px);
+  width: 110%;
+  height: 110%;
+  top: -5%;
+  left: -5%;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: -1;
 }
 
 #container {
@@ -18,6 +28,7 @@ html {
    grid-gap: 2px;
    border-radius: 10px;
    box-shadow: 7px 10px 20px 2px rgba(0, 0, 0, 0.32);
+   z-index: 2;
 }
 
  .credits {

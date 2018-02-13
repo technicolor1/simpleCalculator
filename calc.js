@@ -83,6 +83,11 @@ function inputHandle(element) {
    if (/[0-9.]/.test(element)) {
       memory = 0;
 
+      // prevent several zeroes
+      if (element === 0 && mathStack.currentNum == "0") {
+         return;
+      }
+
       // number inside mathDisplay already has a decimal
       if (element === "." && mathStack.currentNum.includes(".")) {
          return;
@@ -194,20 +199,20 @@ function operate() {
       break;
 
       case "btn-add":
-         return (parseFloat((mathStack.firstNum + mathStack.secondNum).toPrecision(15))).toString();
+         return (parseFloat((mathStack.firstNum + mathStack.secondNum).toPrecision(11))).toString();
 
       case "btn-subtract":
-         return (parseFloat((mathStack.firstNum - mathStack.secondNum).toPrecision(15))).toString();
+         return (parseFloat((mathStack.firstNum - mathStack.secondNum).toPrecision(11))).toString();
 
       case "btn-mult":
-         return (parseFloat((mathStack.firstNum * mathStack.secondNum).toPrecision(15))).toString();
+         return (parseFloat((mathStack.firstNum * mathStack.secondNum).toPrecision(11))).toString();
 
       case "btn-divide":
          if (mathStack.secondNum !== 0) {
-         // return ((mathStack.firstNum / mathStack.secondNum).toFixed(5)).toString();
-         return (parseFloat((mathStack.firstNum / mathStack.secondNum).toPrecision(15))).toString();
-         } else {
-            // FIXME: disable keyboard support
+         return (parseFloat((mathStack.firstNum / mathStack.secondNum).toPrecision(11))).toString();
+         } else {            
+            document.removeEventListener("keyup", keyPress);
+            document.removeEventListener("keydown", keyPress);
 
             const calc = document.querySelector("#container");
             calc.classList.add("broken");
