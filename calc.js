@@ -28,7 +28,7 @@ btnArray.forEach(element => {
 
 const operateArray = Array.from(document.getElementsByClassName("operate"));
 operateArray.forEach(element => {
-   element.addEventListener("click", _ => {
+   const operateClicker = element.addEventListener("click", _ => {
       inputHandle(element.id);
    })
 })
@@ -60,6 +60,18 @@ function clearAll() {
 }
 
 function inputHandle(element) {
+   // positive-negative
+   if (element === "btn-posneg") {
+      mathDisplay.innerHTML *= -1;
+      mathStack.currentNum = mathDisplay.innerHTML;
+      if (didOperate === true) {
+         mathStack.firstNum = mathDisplay.innerHTML;
+      }
+
+      if (mathStack.secondNum !== "") {
+         mathStack.secondNum = mathDisplay.innerHTML;
+      }
+   }
 
    // backspace
    if (element === "btn-back") {
@@ -110,6 +122,11 @@ function inputHandle(element) {
    element === "btn-subtract" ||
    element === "btn-mult" ||
    element === "btn-divide") {
+
+      if (mathDisplay.innerHTML.charAt(0) === "0") {
+         mathDisplay.innerHTML = mathDisplay.innerHTML.substr(1);
+      }
+
       // regular
       if (mathStack.firstNum === "" || didOperate) {
          if (memory !== 0) {
@@ -128,6 +145,7 @@ function inputHandle(element) {
       // chained operations
       } else {
 
+
          mathStack.secondNum = mathStack.currentNum;
          if (mathStack.secondNum) {
             numValidator();
@@ -135,7 +153,12 @@ function inputHandle(element) {
                mathStack.firstNum = 0;
             }
 
-            mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum)).substring(0, 11);
+            if ((operate(mathStack.firstNum, mathStack.secondNum).length > 12)) {
+               alert("Overflow!!");
+               clearAll();
+               return;
+            }
+            mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum));
             mathStack.firstNum = mathStack.currentNum;
          }
          mathDisplay.innerHTML = mathStack.currentNum;
@@ -155,18 +178,22 @@ function inputHandle(element) {
       // push currentNum to secondNum
       mathStack.secondNum = mathStack.currentNum || mathStack.secondNum;
       // process operation
-      mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum)).substring(0, 11);
+      mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum));
+      if (mathStack.currentNum.toString().length > 12) {
+         alert("Overflow!!");
+         clearAll();
+         return;
+      }
       // display result
       mathDisplay.innerHTML = mathStack.currentNum;
       // push result to firstNum
       mathStack.firstNum = mathStack.currentNum;
       memory = mathStack.firstNum;
-
       mathStack.currentNum = "";
       didOperate = true;
    }
 
-   console.log(mathStack);
+   console.table(mathStack);
 }
 
 function numValidator() {
@@ -176,9 +203,7 @@ function numValidator() {
 
    if (a === "") {
       return false;
-   } else if (a === "." ||
-   b === "." ||
-   c === ".") {
+   } else if (a === "." || b === "." || c === ".") {
       return false;
    }
    return true;
@@ -199,25 +224,26 @@ function operate() {
       break;
 
       case "btn-add":
-         return (parseFloat((mathStack.firstNum + mathStack.secondNum).toPrecision(11))).toString();
+         // no toString?
+         return (parseFloat((mathStack.firstNum + mathStack.secondNum).toPrecision(11)));
 
       case "btn-subtract":
-         return (parseFloat((mathStack.firstNum - mathStack.secondNum).toPrecision(11))).toString();
+         return (parseFloat((mathStack.firstNum - mathStack.secondNum).toPrecision(11)));
 
       case "btn-mult":
-         return (parseFloat((mathStack.firstNum * mathStack.secondNum).toPrecision(11))).toString();
+         return (parseFloat((mathStack.firstNum * mathStack.secondNum).toPrecision(11)));
 
       case "btn-divide":
          if (mathStack.secondNum !== 0) {
-         return (parseFloat((mathStack.firstNum / mathStack.secondNum).toPrecision(11))).toString();
-         } else {            
+         return (parseFloat((mathStack.firstNum / mathStack.secondNum).toPrecision(11)));
+         } else {
             document.removeEventListener("keyup", keyPress);
             document.removeEventListener("keydown", keyPress);
 
             const calc = document.querySelector("#container");
             calc.classList.add("broken");
             reset.classList.add("show");
-            return;
+            return 0;
          }
    }
    return mathStack.operator;
