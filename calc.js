@@ -8,10 +8,11 @@ let mathStack = {
    // math to operate on firstNum and secondNum
    operator: null,
    // number inside mathDisplay
-   currentNum: ""
+   currentNum: "",
+   memory: 0,
+   didOperate: false
 }
-let didOperate = false;
-let memory = 0;
+
 const mathDisplay = document.getElementById("display");
 const allBtns = [];
 
@@ -28,7 +29,7 @@ btnArray.forEach(element => {
 
 const operateArray = Array.from(document.getElementsByClassName("operate"));
 operateArray.forEach(element => {
-   const operateClicker = element.addEventListener("click", _ => {
+   element.addEventListener("click", _ => {
       inputHandle(element.id);
    })
 })
@@ -45,17 +46,14 @@ reset.addEventListener("click", _ => {
    window.location = window.location;
 })
 
-document.addEventListener("keyup", keyPress);
-document.addEventListener("keydown", keyPress);
-
 function clearAll() {
-   memory = 0;
-   didOperate = false;
    mathDisplay.innerHTML = "";
    mathStack = {
       firstNum: "",
       secondNum: "",
-      currentNum: ""
+      currentNum: "",
+      memory: 0,
+      didOperate: false
    }
 }
 
@@ -64,7 +62,7 @@ function inputHandle(element) {
    if (element === "btn-posneg") {
       mathDisplay.innerHTML *= -1;
       mathStack.currentNum = mathDisplay.innerHTML;
-      if (didOperate === true) {
+      if (mathStack.didOperate === true) {
          mathStack.firstNum = mathDisplay.innerHTML;
       }
 
@@ -77,7 +75,7 @@ function inputHandle(element) {
    if (element === "btn-back") {
       mathDisplay.innerHTML = mathDisplay.innerHTML.slice(0, -1);
       mathStack.currentNum = mathDisplay.innerHTML;
-      if (didOperate === true) {
+      if (mathStack.didOperate === true) {
          mathStack.firstNum = mathStack.currentNum;
       }
 
@@ -93,10 +91,10 @@ function inputHandle(element) {
 
    // numeric
    if (/[0-9.]/.test(element)) {
-      memory = 0;
+      mathStack.memory = 0;
 
       // prevent several zeroes
-      if (element === 0 && mathStack.currentNum == "0") {
+      if (element === 0 || element === "0" && mathDisplay.innerHTML === "0") {
          return;
       }
 
@@ -128,18 +126,18 @@ function inputHandle(element) {
       }
 
       // regular
-      if (mathStack.firstNum === "" || didOperate) {
-         if (memory !== 0) {
-            if (memory !== mathStack.firstNum) {
-               memory = mathStack.firstNum;
+      if (mathStack.firstNum === "" || mathStack.didOperate) {
+         if (mathStack.memory !== 0) {
+            if (mathStack.memory !== mathStack.firstNum) {
+               mathStack.memory = mathStack.firstNum;
             }
-            mathStack.firstNum = memory;
+            mathStack.firstNum = mathStack.memory;
             mathStack.currentNum = "";
-            didOperate = false;
+            mathStack.didOperate = false;
          } else {
             mathStack.firstNum = mathStack.currentNum;
             mathStack.currentNum = "";
-            didOperate = false;
+            mathStack.didOperate = false;
          }
 
       // chained operations
@@ -153,12 +151,11 @@ function inputHandle(element) {
                mathStack.firstNum = 0;
             }
 
-            if ((operate(mathStack.firstNum, mathStack.secondNum).length > 12)) {
-               alert("Overflow!!");
-               clearAll();
+            mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum));
+            if (largeResult(mathStack.currentNum) === true) {
                return;
             }
-            mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum));
+
             mathStack.firstNum = mathStack.currentNum;
          }
          mathDisplay.innerHTML = mathStack.currentNum;
@@ -179,21 +176,28 @@ function inputHandle(element) {
       mathStack.secondNum = mathStack.currentNum || mathStack.secondNum;
       // process operation
       mathStack.currentNum = (operate(mathStack.firstNum, mathStack.secondNum));
-      if (mathStack.currentNum.toString().length > 12) {
-         alert("Overflow!!");
-         clearAll();
+      if (largeResult(mathStack.currentNum) === true) {
          return;
       }
+
       // display result
       mathDisplay.innerHTML = mathStack.currentNum;
       // push result to firstNum
       mathStack.firstNum = mathStack.currentNum;
-      memory = mathStack.firstNum;
+      mathStack.memory = mathStack.firstNum;
       mathStack.currentNum = "";
-      didOperate = true;
+      mathStack.didOperate = true;
    }
 
    console.table(mathStack);
+}
+
+function largeResult(num) {
+   if (String(num).length > 12) {
+      alert("Overflow!!");
+      clearAll();
+      return true;
+   }
 }
 
 function numValidator() {
@@ -240,8 +244,8 @@ function operate() {
             document.removeEventListener("keyup", keyPress);
             document.removeEventListener("keydown", keyPress);
 
-            const calc = document.querySelector("#container");
-            calc.classList.add("broken");
+            const calcContainer = document.querySelector("#container");
+            calcContainer.classList.add("broken");
             reset.classList.add("show");
             return 0;
          }
@@ -249,12 +253,10 @@ function operate() {
    return mathStack.operator;
 }
 
-function keyPress(event) {
-   if (event.defaultPrevented) {
-      // do nothing if the event was already processed
-      return;
-   }
+document.addEventListener("keyup", keyPress);
+document.addEventListener("keydown", keyPress);
 
+function keyPress(event) {
    if (event.ctrlKey || event.altKey || event.metaKey) {
       return;
    }
