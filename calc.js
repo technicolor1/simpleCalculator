@@ -1,4 +1,4 @@
-"use strict";
+
 
 let mathStack = {
    // first number to operate
@@ -9,7 +9,9 @@ let mathStack = {
    operator: null,
    // number inside mathDisplay
    currentNum: "",
+   // remember number
    memory: 0,
+   // remember operation
    didOperate: false
 }
 
@@ -192,6 +194,8 @@ function inputHandle(element) {
    console.table(mathStack);
 }
 
+// helper function-
+// handles very long results
 function largeResult(num) {
    if (String(num).length > 12) {
       alert("Overflow!!");
@@ -200,6 +204,8 @@ function largeResult(num) {
    }
 }
 
+// helper function-
+// stops NaN results
 function numValidator() {
    const a = mathStack.firstNum;
    const b = mathStack.secondNum;
@@ -257,6 +263,12 @@ document.addEventListener("keyup", keyPress);
 document.addEventListener("keydown", keyPress);
 
 function keyPress(event) {
+
+   if (event.repeat === true) {
+      return;
+   }
+
+   // ignore keystrokes with meta keys
    if (event.ctrlKey || event.altKey || event.metaKey) {
       return;
    }
