@@ -1,22 +1,21 @@
 # simpleCalculator
-#
 
 A simple calculator. Add, subtract, multiply, divide.
 
-# Issues
+## Issues
 - Recommended Chrome for best rendition. 
   - Safari does not fully support CSS-grid
   - the grid gaps do not render correctly
   - Safari does not render blur background properly
   
-# TODO 
+## TODO 
 - [x] Material UI
 - [x] The user should see the least amount of occurrences of NaN / undefined
 - [x] The user can use AC mode 
 - [x] The user can use the keyboard as input
 - [x] The user should see the least amount of overflow
 
-# Future TODO
+## Future TODO
 - [x] The user can use backspace 
 - [ ] The user can use the percent operation
 - [1/2] The user can use the + / - operation
