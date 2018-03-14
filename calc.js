@@ -251,7 +251,7 @@ function operate() {
             document.removeEventListener("keydown", keyPress);
 
             const calcContainer = document.querySelector("#container");
-            calcContainer.classList.add("broken");
+            calcContainer.classList.add("hinge");
             reset.classList.add("show");
             return 0;
          }
